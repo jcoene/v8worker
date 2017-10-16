@@ -1,11 +1,3 @@
-v8.pc
-_gclient*
-v8
-.gclient*
-*.pyc
-*.swp
-.svn
-v8worker.test
-out/
-examples/commonjs/commonjs
-examples/handle-json/handle-json
+/build/depot_tools
+/build/v8
+/examples/react/node_modules

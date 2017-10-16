@@ -1,0 +1,2 @@
+include/**/*.h binary
+libv8/**/*.a binary

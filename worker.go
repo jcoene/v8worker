@@ -1,8 +1,9 @@
 package v8worker
 
 /*
-#cgo CXXFLAGS: -std=c++11
-#cgo pkg-config: v8.pc
+#cgo CXXFLAGS: -I${SRCDIR} -I${SRCDIR}/include -std=c++11
+#cgo darwin LDFLAGS: -L${SRCDIR}/libv8/darwin -lv8_base -lv8_libplatform -lv8_libbase -lv8_libsampler -lv8_snapshot -ldl -pthread
+#cgo linux LDFLAGS: -L${SRCDIR}/libv8/linux -lv8_base -lv8_libplatform -lv8_libbase -lv8_libsampler -lv8_snapshot -ldl -pthread
 #include <stdlib.h>
 #include "binding.h"
 */
