@@ -9,21 +9,10 @@
 
 using namespace v8;
 
-class ArrayBufferAllocator : public ArrayBuffer::Allocator {
- public:
-  virtual void* Allocate(size_t length) {
-    void* data = AllocateUninitialized(length);
-    return data == NULL ? data : memset(data, 0, length);
-  }
-  virtual void* AllocateUninitialized(size_t length) { return malloc(length); }
-  virtual void Free(void* data, size_t) { free(data); }
-};
-
 struct worker_s {
   int x;
   int table_index;
   Isolate* isolate;
-  ArrayBufferAllocator allocator;
   std::string last_exception;
   Persistent<Function> recv;
   Persistent<Context> context;
@@ -309,8 +298,6 @@ const char* worker_send_sync(worker* w, const char* msg) {
   return out.c_str();
 }
 
-static ArrayBufferAllocator array_buffer_allocator;
-
 void v8_init() {
   V8::InitializeICU();
   Platform* platform = platform::CreateDefaultPlatform();
@@ -322,7 +309,7 @@ worker* worker_new(int table_index) {
   worker* w = new(worker);
 
   Isolate::CreateParams create_params;
-  create_params.array_buffer_allocator = &w->allocator;
+  create_params.array_buffer_allocator = ArrayBuffer::Allocator::NewDefaultAllocator();
   Isolate* isolate = Isolate::New(create_params);
   Locker locker(isolate);
   Isolate::Scope isolate_scope(isolate);
