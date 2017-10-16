@@ -32,6 +32,9 @@ case $PLATFORM in
     cp -a ./include/*.h $TARGET/include
     cp -a ./include/libplatform/*.h $TARGET/include/libplatform/
     cp -a ./out/x64.release/obj.target/src/libv8_*.a $TARGET/libv8/linux
+    for f in $TARGET/libv8/linux/libv8_*.a; do
+      ar -t $f | xargs ar rvs $f.new && mv -v $f.new $f
+    done
     ;;
 
   Darwin)
