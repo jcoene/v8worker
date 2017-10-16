@@ -1,3 +1,1 @@
-/build/depot_tools
-/build/v8
-/examples/react/node_modules
+node_modules
